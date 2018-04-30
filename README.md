@@ -4,8 +4,7 @@
 | |_| '_ \   / __| '_ \ / _` | | |/ _ | '_ \ / _` |/ _ \
 |  _| | | | | (__| | | | (_| | | |  __| | | | (_| |  __/
 |_| |_| |_|  \___|_| |_|\__,_|_|_|\___|_| |_|\__, |\___|
-                                             |___/  
-                                             
+                                             |___/                             
 </code></pre>
 
 fn challenge is a project that helps you practice problem solving skills by writing functions. Sometimes you will be given hints. Other times you will have to learn a valuable skill: how to research. In other words, learn how to learn.

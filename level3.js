@@ -1,59 +1,157 @@
 import test from 'tape'
-import { map, filter, reduce, compose, prop } from 'nanofp'
+import hex2color from './lib/hex2color'
+import {
+  map,
+  filter,
+  reduce,
+  compose,
+  merge,
+  find,
+  prop,
+  add,
+  assoc,
+  tap
+} from 'ramda'
 
-const stars = [
-  { first: 'elvis', last: 'presley', alive: false },
-  { first: 'jim', last: 'morrison', alive: false },
-  { first: 'bob', last: 'dylan', alive: true },
-  { first: 'buddy', last: 'holly', alive: false }
-]
-const fullname = o => `${prop('first', o)} ${prop('last', o)}`
-
-/* Level 3 - rockstars */
 export default function() {
-  const ex1 =
-    'Use map to transform list of rockstar first,last name objects to objects with fullname'
-  const exercise1 = _ => {
+  /* Level 2 - colors */
+  const ex1 = `complete the provided mapStateToProps function that takes in an object named "state"
+  and returns an object that contains the following property:
+    1. totalCost - sum of the cost for all goods in cart using price multiplied by quantity
+    2. cartCount - a count of all goods in cart using quantity`
+  const exercise1 = state => {
+    const mapStateToProps = state => null
+    return mapStateToProps(state)
+  }
+
+  const ex2 = `complete the provided mapStateToProps function that takes in an object named "state"
+  and returns an object that contains the following properties:
+    1. savings - a sum of all the discounts for all the goods in the cart.
+    2. totalTax - a sum of all the tax for all goods in the cart.
+    `
+  const exercise2 = state => {
+    const mapStateToProps = state => null
+    return mapStateToProps(state)
+  }
+
+  const ex3 = `The exercise3 function will be passed an "action" object
+    containing a property named "payload" whose value is an object representing
+    a single shopping history session. Using the checkoutDateTime value as a guide,
+    correctly update or append the customer's shopping history with the
+    action payload. Return the entire updated customer object.
+    Do not mutate the original customer object.`
+
+  const exercise3 = action => {
+    const customer = {
+      first: 'Joe',
+      last: 'Hipster',
+      clubMember: true,
+      customerStatus: 'Gold',
+      shoppingHistory: [
+        {
+          checkoutDateTime: '2018-03-05 16:02:01',
+          isComplete: false,
+          storeNumber: 5982,
+          cart: []
+        },
+        {
+          checkoutDateTime: '2018-02-22 12:05:34',
+          isComplete: false,
+          storeNumber: 5982,
+          cart: [
+            { name: 'Fjallraven backpack', price: 59.99, quantity: 1 },
+            { name: 'Oversized glasses', price: 29.99, quantity: 1 },
+            { name: 'Converse shoes', quantity: 1 }
+          ]
+        }
+      ]
+    }
     return null
   }
 
-  const ex2 = 'Use filter to filter list of rockstars that are still alive'
-  const exercise2 = _ => {
-    return null
-  }
+  /////////////////////////////////////////
+  ///                TESTS
+  /// tests to validate exercises go here
+  /////////////////////////////////////////
 
-  const ex3 =
-    'Use reduce and count the number of stars that are no longer living'
-  const exercise3 = _ => {
-    return null
-  }
-
-  const ex4 =
-    'Use map, filter and reduce with compose show a concatenated string of the fullnames of each alive star'
-  const exercise4 = _ => {
-    return null
-  }
-
-  /* tests to validate exercises go here */
   test('test', assert => {
-    assert.plan(4)
-    assert.same(
-      exercise1(),
-      [
-        { fullname: 'elvis presley' },
-        { fullname: 'jim morrison' },
-        { fullname: 'bob dylan' },
-        { fullname: 'buddy holly' }
-      ],
+    assert.plan(3)
+
+    assert.deepEquals(
+      exercise1({
+        cart: [
+          { name: 'Gobstoppers', price: 1.25, quantity: 20 },
+          { name: 'Sour Patch Kids', price: 1.79, quantity: 10 },
+          { name: 'Nerds', price: 1.99, quantity: 30 },
+          { name: 'Twizzlers', price: 4.99, quantity: 5 }
+        ]
+      }),
+      {
+        totalCost: 127.55,
+        cartCount: 65
+      },
       ex1
     )
 
-    assert.same(
-      exercise2(),
-      [{ first: 'bob', last: 'dylan', alive: true }],
+    assert.deepEquals(
+      exercise2({
+        clubMembershipDiscountPct: 5,
+        taxRatePct: 8,
+        cart: [
+          { name: 'Gobstoppers', price: 1.25, quantity: 20 },
+          { name: 'Sour Patch Kids', price: 1.79, quantity: 10 },
+          { name: 'Nerds', price: 1.99, quantity: 30 },
+          { name: 'Twizzlers', price: 4.99, quantity: 5 }
+        ]
+      }),
+      {
+        totalCost: 127.55,
+        cartCount: 65
+      },
       ex2
     )
-    assert.equals(exercise3(), 3, ex3)
-    assert.same(exercise4(), 'bob dylan', ex4)
+
+    assert.deepEquals(
+      exercise3({
+        action: 'SHOPPING_CART_UPDATED',
+        payload: {
+          checkoutDateTime: '2018-03-05 16:02:01',
+          isComplete: true,
+          storeNumber: 5982,
+          cart: [
+            { name: 'Ironic Hipster T-shirt', price: 19.99, quantity: 1 },
+            { name: 'Pork Pie Hat', price: 29.99, quantity: 1 }
+          ]
+        }
+      }),
+      {
+        first: 'Joe',
+        last: 'Hipster',
+        clubMember: true,
+        customerStatus: 'Gold',
+        shoppingHistory: [
+          {
+            checkoutDateTime: '2018-03-05 16:02:01',
+            isComplete: false,
+            storeNumber: 5982,
+            cart: [
+              { name: 'Ironic Hipster T-shirt', price: 19.99, quantity: 1 },
+              { name: 'Pork Pie Hat', price: 29.99, quantity: 1 }
+            ]
+          },
+          {
+            checkoutDateTime: '2018-02-22 12:05:34',
+            isComplete: false,
+            storeNumber: 5982,
+            cart: [
+              { name: 'Fjallraven backpack', price: 59.99, quantity: 1 },
+              { name: 'Oversized glasses', price: 29.99, quantity: 1 },
+              { name: 'Converse shoes', quantity: 1 }
+            ]
+          }
+        ]
+      },
+      ex3
+    )
   })
 }
