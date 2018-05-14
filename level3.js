@@ -16,7 +16,7 @@ import {
 export default function() {
   /* Level 2 - colors */
   const ex1 = `A customer wishes to see cost and count totals for all items in their online shopping cart.
-  Prep the data for display before it is rendered onto the screen.  
+  Prep the data for display before it is rendered onto the screen.
   Complete the provided mapStateToProps function that takes in an object named "state"
   and returns an object that contains these 2 properties:
     1. totalCost - sum of the cost for all goods in cart using price multiplied by quantity
@@ -26,7 +26,10 @@ export default function() {
     return mapStateToProps(state)
   }
 
-  const ex2 = `complete the provided mapStateToProps function that takes in an object named "state"
+  const ex2 = `
+  A customer wishes to see savings and cost totals for all items in their online shopping cart.
+  Prep the data for display before it is rendered onto the screen.
+  Complete the provided mapStateToProps function that takes in an object named "state"
   and returns an object that contains the following properties:
     1. savings - a sum of all the discounts for all the goods in the cart.
     2. totalTax - a sum of all the tax for all goods in the cart.
@@ -36,12 +39,16 @@ export default function() {
     return mapStateToProps(state)
   }
 
-  const ex3 = `A customer has selected some items to purchase and needs to update their
-  shopping history application state. The exercise3 function will be passed an "action" object
-    containing a property named "payload" whose value is an object representing
-    a single shopping history session. Using the checkoutDateTime value as a way to indentify
-    an item in the shopping history, correctly update or append the customer's shopping history. 
-    Return the entire updated customer object. Do not mutate the original customer object.`
+  const ex3 = `A customer has selected some items to purchase.
+  The exercise3 function contains an "action" parameter with a "payload" representing
+    a single shopping history session including the items selected for purchase.
+  The "customer" constant simulates application state.
+  Your task is to update the application state to reflect the items selected for purchase.
+
+    Using the "checkoutDateTime" value as a way to identify an item in the shopping history,
+    correctly update or append the customer's shopping history.
+    Return an entire updated "customer" object.
+    Do not mutate the original customer object.`
 
   const exercise3 = action => {
     const customer = {
@@ -71,18 +78,63 @@ export default function() {
     return null
   }
 
-  const ex4 = `A welcome center app allows the user to select various interests and 
-  then taylors a tourist agenda based upon those interests.  
+  const ex4 = `A welcome center app allows the user to select various interests and
+  then tailors an agenda based upon those interests. This exercise deals with toggling a
+  user's selected interest from false to true or vice versa.
 
-  This exercise deals with toggling a user's selected interest from falst to true or true to false.  
   The exercise4 function will be passed an "action" object
     containing a property named "payload" whose value is an object representing
-    a selected activity.  Use the payload to identify and toggle the appropriate 
-    interest within the interests array. Return a new array.  
+    a selected activity.  The "interests" constant simulates application state.
+    Use the payload to identify and toggle the appropriate
+    interest within state. Return a new array of interests as state.
     Do not mutate the original array.`
 
   const exercise4 = action => {
-    const interests = [{ name: 'Soccer', selected: false }]
+    const interests = [
+      { interest: 'Baseball', selected: false },
+      { interest: 'Fishing', selected: false },
+      { interest: 'Fine Dining', selected: false }
+    ]
+    return null
+  }
+
+  const ex5 = `The welcome center app has been upgraded.
+  Interests have been organized into categories.
+
+  Toggle a user's selected interests.
+  The exercise5 function will be passed an "action" object
+    containing a property named "payload" whose value is an object representing
+    a selected category and activity.  Use the payload to identify and toggle the appropriate
+    interest. Return a new array of interests.
+    Do not mutate the original array.`
+
+  const exercise5 = action => {
+    const interests = [
+      {
+        category: 'Sports',
+        interests: [
+          { interest: 'Baseball', selected: false },
+          { interest: 'Soccer', selected: false },
+          { interest: 'Football', selected: false }
+        ]
+      },
+      {
+        category: 'Fine Dining',
+        interests: [
+          { interest: 'Husk', selected: false },
+          { interest: 'Coast', selected: false },
+          { interest: 'Rue de Jean', selected: false }
+        ]
+      },
+      {
+        category: 'Water',
+        interests: [
+          { interest: 'Fishing', selected: false },
+          { interest: 'Parasailing', selected: false },
+          { interest: 'Nature Cruise', selected: false }
+        ]
+      }
+    ]
     return null
   }
 
@@ -92,7 +144,7 @@ export default function() {
   /////////////////////////////////////////
 
   test('test', assert => {
-    assert.plan(3)
+    assert.plan(5)
 
     assert.deepEquals(
       exercise1({
@@ -170,5 +222,86 @@ export default function() {
       },
       ex3
     )
+
+    assert.deepEquals(
+      exercise4({
+        action: 'INTERESTS_UPDATED',
+        payload: { interest: 'Fishing' }
+      }),
+      [
+        { interest: 'Baseball', selected: false },
+        { interest: 'Fishing', selected: true },
+        { interest: 'Fine Dining', selected: false }
+      ],
+
+      ex4
+    )
+
+    assert.deepEquals(
+      exercise5({
+        action: 'INTERESTS_UPDATED',
+        payload: {
+          category: 'Fine Dining',
+          interest: { interest: 'Husk', selected: true }
+        }
+      }),
+      [
+        {
+          category: 'Sports',
+          interests: [
+            { interest: 'Baseball', selected: false },
+            { interest: 'Soccer', selected: false },
+            { interest: 'Football', selected: false }
+          ]
+        },
+        {
+          category: 'Fine Dining',
+          interests: [
+            { interest: 'Husk', selected: true },
+            { interest: 'Coast', selected: false },
+            { interest: 'Rue de Jean', selected: false }
+          ]
+        },
+        {
+          category: 'Water',
+          interests: [
+            { interest: 'Fishing', selected: false },
+            { interest: 'Parasailing', selected: false },
+            { interest: 'Nature Cruise', selected: false }
+          ]
+        }
+      ],
+
+      ex5
+    )
   })
 }
+
+/*
+[
+  {
+    category: 'Sports',
+    interests: [
+      { interest: 'Baseball', selected: false },
+      { interest: 'Soccer', selected: false },
+      { interest: 'Football', selected: false }
+    ]
+  },
+  {
+    category: 'Fine Dining',
+    interests: [
+      { interest: 'Husk', selected: false },
+      { interest: 'Coast', selected: true },
+      { interest: 'Rue de Jean', selected: false }
+    ]
+  },
+  {
+    category: 'Water',
+    interests: [
+      { interest: 'Fishing', selected: false },
+      { interest: 'Parasailing', selected: false },
+      { interest: 'Nature Cruise', selected: false }
+    ]
+  }
+]
+*/

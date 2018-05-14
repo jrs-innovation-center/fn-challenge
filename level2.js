@@ -27,8 +27,11 @@ export default function() {
     return mapStateToProps(state)
   }
 
-  const ex2 = `The exercise2 function will be passed an "action" object
-    containing a property named "payload" whose value is an object.
+  const ex2 = `A user has updated a person's data by increasing their annual income.
+  The application state is represented by the "person" object.
+    You need to update the application state to reflect the changes made by the user.
+    The exercise2 function will be passed an "action" object
+    containing a property named "payload" whose value represents the data changed by the user.
     merge the payload value into the "person" object and return an updated "person" object.
     Do not mutate the original person object."`
 
@@ -43,7 +46,9 @@ export default function() {
     return null
   }
 
-  const ex3 = `The exercise3 function will be passed an "action" object
+  const ex3 = `A user wants to add a person to the list of persons.
+ The application state is represented by the "persons" array.
+  The exercise3 function will be passed an "action" object
       containing a property named "payload" whose value is an person object.
       Add the person to the persons array.
     Do not mutate the original persons array, rather,
@@ -76,8 +81,8 @@ export default function() {
     return null
   }
 
-  const ex6 = `complete the provided mapStateToProps function which takes in state and 
-  returns a new object with a property named "foundPerson".  
+  const ex6 = `complete the provided mapStateToProps function which takes in state and
+  returns a new object with a property named "foundPerson".
   Use personId to find the correct person in state.`
 
   const exercise6 = state => {
@@ -86,7 +91,10 @@ export default function() {
     return mapStateToProps(state)
   }
 
-  const ex7 = `complete the provided mapStateToProps function which takes in state and 
+  const ex7 = `In the UI, a customer needs to see a list of persons
+  or they need to see a message that there are no persons in the list.
+  Your job is to prep the data before it is rendered as UI.
+  Complete the provided mapStateToProps function which takes in state and
   returns a new object containing a property named "hasPersons".
   The value of the "hasPersons" property should be a boolean.
   If the number of persons in the array is greater than 0,
